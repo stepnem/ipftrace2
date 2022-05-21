@@ -89,7 +89,7 @@ put_sym2info(struct ipft_symsdb *sdb, const char *name,
 }
 
 int
-symsdb_get_sym2info(struct ipft_symsdb *sdb, char *name,
+symsdb_get_sym2info(struct ipft_symsdb *sdb, const char *name,
                     struct ipft_syminfo **sinfop)
 {
   khint_t iter;
@@ -407,6 +407,8 @@ btf_fill_sym2info(struct ipft_symsdb *sdb, struct btf *btf)
       }
 
       sinfo.skb_pos = i;
+      sinfo.attach_btf_id = id;
+      sinfo.attach_btf_obj_fd = btf__fd(btf);
 
       error = put_sym2info(sdb, func_name, &sinfo);
       if (error != -2 && error != 0) {
